@@ -1,0 +1,32 @@
+{
+  "Comment": "Default Step Function",
+  "StartAt": "PreprocessingData",
+  "States": {
+    "EventBridge PutEvents": {
+      "End": true,
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail": {
+              "Message": "Hello from Step Functions!"
+            },
+            "DetailType": "response_to_return",
+            "EventBusName": "default",
+            "Source": "user-event"
+          }
+        ]
+      },
+      "Resource": "arn:aws:states:::events:putEvents",
+      "Type": "Task"
+    },
+    "InvokeEndpoint": {
+      "Next": "EventBridge PutEvents",
+      "Type": "Pass"
+    },
+    "PreprocessingData": {
+      "Next": "InvokeEndpoint",
+      "Result": "Hello",
+      "Type": "Pass"
+    }
+  }
+}
